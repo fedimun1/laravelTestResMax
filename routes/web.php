@@ -20,8 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 // Fedila
-Route::post('/addUser', [App\Http\Controllers\UserController::class, 'CreateUser']);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'prevent-back-history'],function(){
+	Auth::routes();
+    Route::post('/addUser', [App\Http\Controllers\UserController::class, 'CreateUser']);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+});
 
 // Route::middleware('auth')->group(function () {
 //     Route::view('about', 'about')->name('about');
